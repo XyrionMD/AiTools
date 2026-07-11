@@ -3,11 +3,11 @@
 ![License](https://img.shields.io/badge/License-MIT-green)
 ![Version](https://img.shields.io/badge/Version-v1.2.7-orange)
 
-# **📔INDONESIA**
+**📔INDONESIA**
 
 hallo saya xyrion, saya membagikan alat yang mungkin akan membantu anda dalam hal seperti, download music mp3, play music, chat dengan ai menggunakan api key anda sendiri, anda bisa mengatur semua config nya di dalam file yang bernama config.py, yang berlokasi, di folder .config/ai di home komputer anda.
 
-# **📘ENGLISH**
+**📘ENGLISH**
 
 Hello, I'm xyrion, I'm sharing a tool that might help you in things like, downloading mp3 music, plays music, chatting with AI using your own API key, you can set all the configurations in a file called config.py, which is located in the .config/ai folder on your computer's home page. 
 
