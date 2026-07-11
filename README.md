@@ -46,7 +46,7 @@ For the AI section, you'll need the Gemini AI API key, as the tool I created is 
 - chat Open the Chat menu with Ai
 
 
-# **requirements**
+# **Requirements**
 
 - yt-dlp
 - requests
