@@ -13,6 +13,7 @@ Pada bagian ai anda memerlukan api key gemini ai, karena pada dasar nya alat yan
 For the AI section, you'll need the Gemini AI API key, as the tool I created is essentially based on Gemini AI. If you only need the tool to download music, you don't need this API key. To get the Gemini API key, you can watch the tutorial video on YouTube. 
 
 **📖COMMAND**
+
 **📔INDONESIA**
 - help Menampilkan informasi lanjut tentang command yg tersedia
 - search [query] Mencari Informasi Music
