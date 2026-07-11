@@ -4,17 +4,21 @@ hallo saya xyrion, saya membagikan alat yang mungkin akan membantu anda dalam ha
 
 # **📘ENGLISH**
 
-Hello, I'm xyrion, I'm sharing a tool that might help you in things like, downloading mp3 music, playing music, chatting with AI using your own API key, you can set all the configurations in a file called config.py, which is located in the .config/ai folder on your computer's home page. 
+Hello, I'm xyrion, I'm sharing a tool that might help you in things like, downloading mp3 music, plays music, chatting with AI using your own API key, you can set all the configurations in a file called config.py, which is located in the .config/ai folder on your computer's home page. 
 
 # **🔑GET API key**
 
 **📔INDONESIA**
 
-Pada bagian ai anda memerlukan api key gemini ai, karena pada dasar nya alat yang saya buat berbasis gemini ai, kalau anda hanya memerlukan alat untuk mendownload music nya saja anda tidak perlu api key ini. Untuk mendapat kan api key gemini, anda bisa menonton video tutorial di youtube.
+Pada bagian ai anda memerlukan api key gemini ai, karena pada dasar nya alat yang saya buat berbasis gemini ai, kalau anda hanya memerlukan alat untuk mendownload music nya saja anda tidak perlu api key ini. Untuk mendapat kan api key gemini, anda bisa membuka
+
+<https://aistudio.google.com/>
 
 **📘ENGLISH**
 
-For the AI section, you'll need the Gemini AI API key, as the tool I created is essentially based on Gemini AI. If you only need the tool to download music, you don't need this API key. To get the Gemini API key, you can watch the tutorial video on YouTube. 
+For the AI section, you'll need the Gemini AI API key, as the tool I created is essentially based on Gemini AI. If you only need the tool to download music, you don't need this API key. To get the Gemini API key, You can get your Gemini API KEY at
+
+<https://aistudio.google.com/>
 
 # **📖COMMAND**
 
@@ -32,7 +36,7 @@ For the AI section, you'll need the Gemini AI API key, as the tool I created is 
 - help displays further information about available commands 
 - search [query] Searching for Music Information 
 - download [query] Download Music 
-- play [query] Playing Music using mpv 
+- play [query] Plays Music using mpv 
 - time Displays Date, Month, Year, Day and Time 
 - chat Open the Chat menu with Ai
 
@@ -44,6 +48,16 @@ For the AI section, you'll need the Gemini AI API key, as the tool I created is 
 - lolcat
 - figlet
 - mpv
+
+# Features
+
+- 🎵 Search music
+- ⬇️ Download MP3
+- ▶️ Play music with MPV
+- 🤖 Chat with Gemini AI
+- 🕒 Show date & time
+
+# Installation
 
 **Step 1**
 
