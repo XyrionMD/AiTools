@@ -62,7 +62,7 @@ match arg:
             
 
     case ["play", query]:
-        os.system(f"mpv {query}")
+        os.system(f"mpv '{query}'")
 
     case ["help"]:
         show_help()

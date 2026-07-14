@@ -1,7 +1,7 @@
 #<==> TERMUX <==> For Termux, you can remove the hash mark under this text, then save it again and run it.
 # |
 # V
-#pkg update -y && pkg install mpv figlet
+#pkg update -y && pkg install mpv
 echo "Succesly Install Library"
 sleep 1
 echo "Installing ai..."

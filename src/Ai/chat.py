@@ -1,6 +1,9 @@
 import os, requests
 from config import CVT
-from colors import C
+from textual.app import App, ComposeResult
+from textual.containers import Horizontal, Vertical, ScrollableContainer
+from textual.widgets import Header, Footer, Input, Static
+from textual.binding import Binding
 
 API_KEY = f"{CVT.API}"
 MODEL_AI = f"{CVT.MODEL}"
@@ -8,60 +11,137 @@ URL = f"https://generativelanguage.googleapis.com/v1beta/models/{MODEL_AI}:gener
 
 history = []
 
-def show_help():
-    print("""
-AI ChatBot V21.0
-<==> <==> <==> <==> <==> <==> <==> <==>
-- help           | menampilkan menu ini
-- quit           | untuk keluar
-<==> <==> <==> <==> <==> <==> <==> <==>
-          """)
+class ChatBubble(Static):
+    pass
 
-def askAI():
-    os.system("clear")
-    os.system("figlet 'AI Chat' | lolcat")
-    while True:
+class ChatApp(App):
+    CSS = """
+    Screen {
+        background: #1a1a1a;
+    }
+    Header {
+        background: #333333;
+        color: #cccccc;
+    }
+    Footer {
+        background: #333333;
+        color: #999999;
+    }
+    #chat-area {
+        background: #1a1a1a;
+        padding: 1;
+    }
+    Input {
+        background: #2a2a2a;
+        color: #cccccc;
+        border: none;
+        dock: bottom;
+        margin: 0 1 1 1;
+    }
+    Input:focus {
+        border: none;
+    }
+    .user-row {
+        width: 100%;
+        height: auto;
+        margin-bottom: 1;
+    }
+    .ai-row {
+        width: 100%;
+        height: auto;
+        margin-bottom: 1;
+    }
+    .user-bubble {
+        background: #3a3a3a;
+        color: #cccccc;
+        padding: 1 2;
+        max-width: 70%;
+        width: auto;
+    }
+    .ai-bubble {
+        background: #2e2e2e;
+        color: #dddddd;
+        padding: 1 2;
+        max-width: 70%;
+        width: auto;
+    }
+    """
+
+    BINDINGS = [
+        Binding("ctrl+q", "quit", "Quit", priority=True),
+    ]
+
+    def compose(self):
+        yield Header(name="AI Chat", classes="header")
+        with ScrollableContainer(id="chat-area"):
+            pass
+        yield Input(placeholder="Type a message ...", id="input-box")
+        yield Footer()
+
+    def on_mount(self):
+        self.query_one("#input-box", Input).focus()
+
+    def on_input_submitted(self, event: Input.Submitted):
+        msg = event.value.strip()
+        if not msg:
+            return
+        if msg.lower() == "quit":
+            self.exit()
+            return
+
+        self.add_user_msg(msg)
+        self.query_one("#input-box", Input).value = ""
+        self.run_worker(lambda: self.get_ai_response(msg), name="ai_request", thread=True)
+
+    def add_user_msg(self, text):
+        chat = self.query_one("#chat-area", ScrollableContainer)
+        row = Horizontal(classes="user-row")
+        row.styles.width = "100%"
+        row.styles.height = "auto"
+        row.styles.align_horizontal = "right"
+        chat.mount(row)
+        bubble = ChatBubble(text, classes="user-bubble")
+        bubble.styles.margin = (0, 0, 0, 1)
+        row.mount(bubble)
+        chat.scroll_end()
+
+    def add_ai_msg(self, text):
+        chat = self.query_one("#chat-area", ScrollableContainer)
+        row = Horizontal(classes="ai-row")
+        row.styles.width = "100%"
+        row.styles.height = "auto"
+        chat.mount(row)
+        bubble = ChatBubble(text, classes="ai-bubble")
+        bubble.styles.margin = (0, 1, 0, 0)
+        row.mount(bubble)
+        chat.scroll_end()
+
+    def get_ai_response(self, msg):
+        history.append({
+            "role": "user",
+            "parts": [{"text": msg}]
+        })
+        SYS_PROMPT = f"{CVT.AI_PROMPT}"
+        payload = {
+            "system_instruction": {
+                "parts": [{"text": SYS_PROMPT}]
+            },
+            "contents": history
+        }
+        headers = {"Content-Type": "application/json"}
         try:
-            askcvt = input(f"{C.RED}You >>>{C.RESET} ").strip()
-            if askcvt.lower() == "quit":
-                break
-            elif askcvt.lower() == "help":
-                show_help()
-                continue
-            if not askcvt.strip():
-                continue
-
-            history.append({
-                "role": "user",
-                "parts": [{"text": askcvt}]
-            })
-
-            SYS_PROMPT = f"{CVT.AI_PROMPT}"
-
-            payload = {
-                    "system_instruction": {
-                        "parts": [{"text": SYS_PROMPT}]
-                    },
-                    "contents": history
-            }
-
-            headers = {
-                    "Content-Type": "application/json"
-            }
-
             response = requests.post(URL, json=payload, headers=headers)
             response.raise_for_status()
-
             data = response.json()
             ai_response = data['candidates'][0]['content']['parts'][0]['text']
-            print(f"{C.BLUE}{CVT.NAME_OF_AI} >>>{C.RESET} {ai_response}")
-
+            self.call_from_thread(self.add_ai_msg, ai_response)
             history.append({
                 "role": "model",
                 "parts": [{"text": ai_response}]
             })
         except requests.exceptions.RequestException as e:
-            print(f"Connection Error {e}")
-            history.pop()
+            self.call_from_thread(self.add_ai_msg, f"Connection Error: {e}")
 
-
+def askAI():
+    app = ChatApp()
+    app.run()
