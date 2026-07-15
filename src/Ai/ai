@@ -1,5 +1,5 @@
 #!/bin/python3
-import sys, time, yt_dlp, os, datetime, locale
+import sys, time, yt_dlp, os, datetime, shutil
 from pathlib import Path
 
 root_dir = Path(__file__).resolve().parent.parent
@@ -58,11 +58,16 @@ match arg:
             ydl.download([url])
         cmd = input("Do you want play it? [y/n]: ").lower().strip()
         if cmd == "y":
+            if shutil.which("mpv") is None:
+                print("!Alert mpv Not Installed")
             os.system(f"mpv '{xcv}.mp3'")
             
 
     case ["play", query]:
-        os.system(f"mpv '{query}'")
+        if shutil.which("mpv") is None:
+            print("Alert! mpv Not Installed")
+        else:
+            os.system(f"mpv '{query}'")
 
     case ["help"]:
         show_help()
